@@ -1,0 +1,22 @@
+version: '2'
+volumes:
+  redis_data:
+networks:
+  db:
+services:
+  app:
+    image: python 3.6
+    build:
+      context: ./app
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+    ports:
+      - "8080:8080"
+  db:
+    image: redis:3.2-alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - db
